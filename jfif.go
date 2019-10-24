@@ -1,4 +1,4 @@
-package exif
+package jfif
 
 import (
     "os"
@@ -6,7 +6,7 @@ import (
     "fmt"
 )
 
-type ExifData map[string]interface{}
+type JfifData map[string]interface{}
 
 type size_t uint64
 
@@ -36,13 +36,13 @@ func loadSize(fd *os.File, size size_t) ([]byte, error) {
     return buffer, nil
 }
 
-type Exif struct {
+type Jfif struct {
     Path string
     Entries []Entry
     NoDataLeft bool
 }
 
-func (x *Exif) SectionAt(pos int64) Entry {
+func (x *Jfif) SectionAt(pos int64) Entry {
     for _, ent := range x.Entries {
         if ent.Pos() <= pos && pos <= ent.Pos() + ent.Len() {
             return ent
@@ -51,7 +51,7 @@ func (x *Exif) SectionAt(pos int64) Entry {
     return nil
 }
 
-func (x *Exif) Load(path string) error {
+func (x *Jfif) Load(path string) error {
     fmt.Printf("exif.Load(%#v)\n", path)
     x.Path = path
 
@@ -105,7 +105,7 @@ func (x *Exif) Load(path string) error {
     return nil
 }
 
-func (x *Exif) SaveTo(path string) error {
+func (x *Jfif) SaveTo(path string) error {
     fmt.Printf("exif.SaveTo(%#v)\n", path)
     fd, e := os.OpenFile(path, os.O_RDWR|os.O_CREATE, 0644)
     if e != nil { return e; }
@@ -117,13 +117,13 @@ func (x *Exif) SaveTo(path string) error {
     return nil
 }
 
-func (x *Exif) Save() error {
+func (x *Jfif) Save() error {
     fmt.Printf("exif.Save() -> %#v\n", x.Path)
     // return x.SaveTo(x.Path)
     return nil
 }
 
-func (x *Exif) Inject(xif ExifData) error {
+func (x *Jfif) Inject(xif JfifData) error {
     fmt.Printf("exif.Inject(%q, %#v)\n", x.Path, xif)
     return nil
 }

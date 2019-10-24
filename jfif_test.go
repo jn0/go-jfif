@@ -1,4 +1,4 @@
-package exif
+package jfif
 
 import (
     "os"
@@ -7,7 +7,7 @@ import (
 )
 import "testing"
 
-func compare(t *testing.T, x *Exif, p1, p2 string) bool {
+func compare(t *testing.T, x *Jfif, p1, p2 string) bool {
     d1, e := ioutil.ReadFile(p1)
     if e != nil {
         t.Fatalf("ioutil.ReadFile(%q): %v", p1, e)
@@ -33,7 +33,7 @@ func compare(t *testing.T, x *Exif, p1, p2 string) bool {
 }
 
 func TestInject(t *testing.T) {
-    var x = ExifData{
+    var x = JfifData{
         "UserComment": String("sample user comment"),
         "gps.latitude": Rational{Num:550, Den:10},
     }
@@ -57,7 +57,7 @@ func TestInject(t *testing.T) {
             continue
         }
         path := path.Join(imgPath, name)
-        var X Exif
+        var X Jfif
         if e = X.Load(path); e != nil {
             t.Fatalf("Cannot load %#v: %v", path, e)
         }

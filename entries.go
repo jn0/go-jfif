@@ -1,4 +1,4 @@
-package exif
+package jfif
 
 import (
     "os"
