@@ -7,6 +7,9 @@ import (
 )
 import "testing"
 
+const testImagePath = "assets"
+const testOutputSuffix = ".jfif"
+
 func compare(t *testing.T, x *Jfif, p1, p2 string) bool {
     d1, e := ioutil.ReadFile(p1)
     if e != nil {
@@ -37,7 +40,8 @@ func TestInject(t *testing.T) {
         "UserComment": String("sample user comment"),
         "gps.latitude": Rational{Num:550, Den:10},
     }
-    imgPath := path.Join(os.TempDir(), "go-basler-pylon-test")
+    // imgPath := path.Join(os.TempDir(), "go-basler-pylon-test")
+    imgPath := testImagePath
     var e error
     var f *os.File
     var lst []string
@@ -64,12 +68,12 @@ func TestInject(t *testing.T) {
         if e = X.Inject(x); e != nil {
             t.Fatalf("Cannot Inject(%#v, %#v): %v", path, x, e)
         }
-        if e = X.SaveTo(path + ".xxx"); e != nil {
-            t.Fatalf("Cannot save %#v: %v", path, e)
+        if e = X.SaveTo(path + testOutputSuffix); e != nil {
+            t.Fatalf("Cannot save %#v: %v", path + testOutputSuffix, e)
         } else {
             t.Logf("File %#v saved", path)
         }
-        if compare(t, &X, path, path + ".xxx") {
+        if compare(t, &X, path, path + testOutputSuffix) {
             t.Logf("same files")
         } else {
             t.Fatalf("Files differ")
